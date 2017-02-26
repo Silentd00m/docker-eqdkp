@@ -1,0 +1,31 @@
+# listening on port 80 disabled by default, remove the "#" signs to enable
+# redirect all traffic to https
+
+# main server block
+server {
+	listen 80 default_server;
+	root /webroot;
+	index index.html index.htm index.php;
+
+	server_name _;
+
+	client_max_body_size 0;
+
+	location / {
+		try_files $uri $uri/ /index.php?$args /index.html =404;
+	}
+
+	location ~ [^/]\.php(/|$) {
+		fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+		if (!-f $document_root$fastcgi_script_name) {
+			return 404;
+		}
+
+# Mitigate https://httpoxy.org/ vulnerabilities
+		fastcgi_param HTTP_PROXY "";
+
+		fastcgi_pass 127.0.0.1:9000;
+		fastcgi_index index.php;
+		include fastcgi_params;
+	}
+}

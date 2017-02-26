@@ -1,0 +1,2 @@
+#!/usr/bin/execlineb -P
+php-fpm7 -c /config/php7/php.ini --fpm-config /config/php7/php-fpm.conf -F

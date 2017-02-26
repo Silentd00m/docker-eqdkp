@@ -1,0 +1,2 @@
+docker run -d --rm --name raid-planner-db -v /opt/docker-data/raid-planner-database:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=eqdkp -e MYSQL_DATABASE=eqdkp -e MYSQL_USER=eqdkp -e MYSQL_PASSWORD=eqdkp mariadb:latest
+docker run -d --rm --name raid-planner -p 8081:80 -v /opt/docker-data/raid-planner/config:/config -v /opt/docker-data/raid-planner/webroot:/webroot -e PGID=1008 -e PUID=1007 -e GAME_FFXIV=y --link raid-planner-db:db docker-raidplanner
